@@ -9,7 +9,7 @@ localparam FRACT_WIDTH = STEP_SIZE-ADDR_WIDTH; // fractional part of phase accum
 input clk;
 input rst;
 input [STEP_SIZE-1:0] step; // defines sinwave frequency
-output [LUT_WIDTH-1:0] out = lut;
+output reg [LUT_WIDTH-1:0] out;
 
 reg signed [LUT_WIDTH-1:0] LUT [2**ADDR_WIDTH-1:0];
 reg [STEP_SIZE+FRACT_WIDTH-1:0] ph_accum;
