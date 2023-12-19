@@ -1,0 +1,6 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="123456789" />
+    <testcase name="multiply_test" classname="test_matrix_multiplier" file="C:\Users\aledn\Documents\hm3\matrix\tests\test_matrix_multiplier.py" lineno="149" time="12.279378652572632" sim_time_ns="60030.001" ratio_time="4888.683922734414" />
+  </testsuite>
+</testsuites>
