@@ -1,0 +1,7 @@
+<testsuites name="results">
+  <testsuite name="all" package="all">
+    <property name="random_seed" value="1703018890" />
+    <testcase name="generate_clock" classname="test_my_design_ex" file="C:\Users\aledn\Documents\hm3\begin\test_my_design_ex.py" lineno="6" time="0.006022214889526367" sim_time_ns="20.001" ratio_time="3321.203305910765" />
+    <testcase name="my_second_test" classname="test_my_design_ex" file="C:\Users\aledn\Documents\hm3\begin\test_my_design_ex.py" lineno="17" time="0.0010223388671875" sim_time_ns="6.000999999999998" ratio_time="5869.873671641789" />
+  </testsuite>
+</testsuites>
