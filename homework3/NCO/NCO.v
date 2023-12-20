@@ -1,21 +1,18 @@
 module NCO (clk, rst, step, out);
 
-parameter STEP_SIZE = 16; // integer part of of phase accumulator
-parameter ADDR_WIDTH = 8; // integer part of of phase accumulator
+parameter STEP_SIZE = 16;
+parameter ADDR_WIDTH = 8;
 parameter LUT_WIDTH = 16; 
 
-localparam FRACT_WIDTH = STEP_SIZE-ADDR_WIDTH; // fractional part of phase accumulator
+localparam FRACT_WIDTH = STEP_SIZE-ADDR_WIDTH;
 
 input clk;
 input rst;
-input [STEP_SIZE-1:0] step; // defines sinwave frequency
+input [STEP_SIZE-1:0] step;
 output reg [LUT_WIDTH-1:0] out;
 
 reg signed [LUT_WIDTH-1:0] LUT [2**ADDR_WIDTH-1:0];
 reg [STEP_SIZE+FRACT_WIDTH-1:0] ph_accum;
-
-
-// RTL code for phase accumulator'
 
 always @(posedge clk) begin
     if (rst)
@@ -24,35 +21,27 @@ always @(posedge clk) begin
         ph_accum <= ph_accum + step;
 end
 
-
-// generate SIN LUT contents
-localparam PI = $atan(1)*4.0;
-// Potentially here can be troubles in 'initial'
-// if yes, then generate file from other lang and use `$readmemb` or `$readmemh`
+localparam PI = $asin(1)*4.0;
 
 initial begin
-real phase;
-    for (phase = 0; phase < 2.0**ADDR_WIDTH; phase=phase+1.0) begin
-       LUT[phase] = $floor(($sin(2*PI * phase / 2.0**ADDR_WIDTH)) * 2**LUT_WIDTH );
+integer phase;
+    for (phase = 0; phase < 2**ADDR_WIDTH; phase=phase+1) begin
+       LUT[$rtoi(phase)] = ($sin(2 * PI * phase / 2.0 ** ADDR_WIDTH)) * 2 ** LUT_WIDTH;
     end
 end
 
-// dither generation
-wire dither; 
-assign dither = 0; // replace with line by LSFR module instantiation to get dither value
+wire dither;
+assign dither = 0;
 
-// addr generation
 reg [ADDR_WIDTH-1:0] addr;
 
 always @(posedge clk) begin
     if (rst)
         addr <= 0;
     else
-        addr <= dither + ph_accum [ADDR_WIDTH+FRACT_WIDTH-1:FRACT_WIDTH];
+        addr <= ph_accum[ADDR_WIDTH + FRACT_WIDTH - 1 : FRACT_WIDTH];
 end
 
-
-// LUT ouput generation from ROM
 always @ (posedge clk)
 	begin
 		out <= LUT[addr];
