@@ -18,7 +18,7 @@ async def testbench(dut):
             sin[i] = dut.out.value.signed_integer
             sinabs[i] = abs(sin[i])
     for i in range(10000):
-        sin[i] = sin[i] #/ max(sinabs)
+        sin[i] = sin[i] / max(sinabs)
     plt.plot(sin)
     plt.savefig(f'1.png')
     plt.show()
